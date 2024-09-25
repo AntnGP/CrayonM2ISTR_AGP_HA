@@ -9,7 +9,7 @@ class Ville(models.Model): # Represente une ville
     prixm2 = models.IntegerField(default=400)
         
     def __str__(self):
-        retun(f "{self.nom},{self.code_postal}")
+        return f"{self.nom},{self.code_postal}"
     
 class Local(models.Model): # Represente un batiment situé dans une ville
     nom = models.CharField(max_length=200)
@@ -21,26 +21,29 @@ class Local(models.Model): # Represente un batiment situé dans une ville
     
  
     def __str__(self):
-        retun(f "local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}")
+        return f"local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}"
 
         
 
 class Siege(Local): # Represente un type de batiment specifique
     def __str__(self):
+        return f"Siege social situé à : {self.nom},{self.code_postal}"
       
    
 class Machine(models.Model): # Represente une machine situé dans une usine
     nom = models.CharField(max_length=200)
     prix = models.IntegerField(default=1)
     n_serie = models.CharField(max_length=200,default='A') 
-        
+    
     def __str__(self):
+        return f"Machine {self.nom},{self.n_serie} de l'usine {self.usine.local.nom}"
+        
    
 class Usine(Local): # Represente un type de batiment specifique
-      machine = models.ForeignKey(
+    machines = models.ManyToManyField(
             Machine,
-            on_delete=models.PROTECT,
+            #on_delete=models.PROTECT,
             )
-       def __str__(self):
-
+    def __str__(self):
+           return f"Usine {self.local.nom} de {self.local.ville.nom},{self.local.ville.code_postal} d'une sruface de {self.local.surface}m2"
 
