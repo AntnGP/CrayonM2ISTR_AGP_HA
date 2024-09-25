@@ -3,30 +3,44 @@ from django.db import models
 
 # crayon/models.py
 
-class Ville(models.Model):
+class Ville(models.Model): # Represente une ville
     nom = models.CharField(max_length=200)
     code_postal = models.IntegerField(default=31400)
     prixm2 = models.IntegerField(default=400)
+        
+    def __str__(self):
+        retun(f "{self.nom},{self.code_postal}")
     
-class Local(models.Model):
+class Local(models.Model): # Represente un batiment situé dans une ville
     nom = models.CharField(max_length=200)
     ville = models.ForeignKey(
             Ville,
             on_delete=models.PROTECT,
             )
     surface = models.CharField(max_length=200)
+    
+ 
+    def __str__(self):
+        retun(f "local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}")
 
-class Siege(Local):
-    pass # pour dire a python que ce n'est pas une erreur et que l'on ne met rien dedans
+        
+
+class Siege(Local): # Represente un type de batiment specifique
+    def __str__(self):
+      
    
-class Machine(models.Model):
+class Machine(models.Model): # Represente une machine situé dans une usine
     nom = models.CharField(max_length=200)
     prix = models.IntegerField(default=1)
     n_serie = models.CharField(max_length=200,default='A') 
+        
+    def __str__(self):
    
-class Usine(Local):
+class Usine(Local): # Represente un type de batiment specifique
       machine = models.ForeignKey(
             Machine,
             on_delete=models.PROTECT,
             )
+       def __str__(self):
+
 
