@@ -49,6 +49,7 @@ class Stock << (M,green) >> {
     *ressource
     *nombre
     *usine
+     acheter(ressource,quantite)
 }
 
 class Etape << (M,green) >> {
