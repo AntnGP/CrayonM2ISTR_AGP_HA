@@ -36,14 +36,14 @@ class Machine(models.Model): # Represente une machine situé dans une usine
     n_serie = models.CharField(max_length=200,default='A') 
     
     def __str__(self):
-        return f"Machine {self.nom},{self.n_serie} de l'usine {self.usine.local.nom}"
+        return f"Machine {self.nom},{self.n_serie}"
         
    
 class Usine(Local): # Represente un type de batiment specifique
     machines = models.ManyToManyField(
             Machine,
-            #on_delete=models.PROTECT,
+            #on_delete=models.PROTECT,  #pas supporté par ManytoMany
             )
     def __str__(self):
-           return f"Usine {self.local.nom} de {self.local.ville.nom},{self.local.ville.code_postal} d'une sruface de {self.local.surface}m2"
+           return f"Usine {self.nom} de {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}m2"
 
