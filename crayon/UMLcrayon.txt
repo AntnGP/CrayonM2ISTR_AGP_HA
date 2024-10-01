@@ -50,6 +50,7 @@ class Stock << (M,green) >> {
     *ressource
     *nombre
     *usine
+      costs()
 }
 
 class Etape << (M,green) >> {
