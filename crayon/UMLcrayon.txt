@@ -6,7 +6,7 @@ class Ville << (M,green) >> {
     *prixm2
 }
 
-class Local << (A,blue) >> {
+class Local << (M,green) >> {
     *nom
     *ville
     *surface
@@ -37,6 +37,7 @@ class Produit << (M,green) >> {
 }
 
 class Ressource << (M,green) >> {
+     acheter(quantite)
 }
 
 class QuantiteRessource << (M,green) >> {
@@ -49,7 +50,6 @@ class Stock << (M,green) >> {
     *ressource
     *nombre
     *usine
-     acheter(ressource,quantite)
 }
 
 class Etape << (M,green) >> {

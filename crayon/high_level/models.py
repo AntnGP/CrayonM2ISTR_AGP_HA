@@ -65,7 +65,12 @@ class Objet(models.Model):  # Represente un objet
         return f"{self.nom},{self.prix}"
     
 class Ressource(Objet):  # Represente un type d'objet
-    
+
+    def acheter(quantite):
+        prix = {self.prix}*quantite
+        f"Prix d'achat = {prix}€"
+        return prix
+
 
     def __str__(self):
         return f"Ressource :{self.nom},{self.prix} "
@@ -78,7 +83,6 @@ class Stock(models.Model):  # Represente un type de batiment specifique
                                 Local,
                                 on_delete=models.PROTECT,
     )
-
     def __str__(self):
         return f"Stock situe a {self.local.nom} dans {self.local.ville.nom},{self.local.ville.code_postal} d'une surface de {self.local.surface}"
 
