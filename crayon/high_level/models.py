@@ -46,8 +46,10 @@ class Usine(Local):  # Represente un type de batiment specifique
     )
     def costs(self):
         cout = 0
-        for m in self.machines_set.all(): #pour toutes les machines (m) de l'uine on recupere le prix par la methode cost et on l'aditionne au prix du terrain
+        for m in self.machines.all(): #pour toutes les machines (m) de l'uine on recupere le prix par la methode cost et on l'aditionne au prix du terrain
             cout = cout + m.cost()
+        for s in self.stock_set.all(): #stock_set est un paramtre generé par l'intepreteur qui liste tous les stocks de l'usine au quel on accede 
+            cout = cout + s.cost()
         cout = self.ville.prixm2 * self.surface + cout
         f"Coute {cout}€"
         return cout
@@ -83,6 +85,12 @@ class Stock(models.Model):  # Represente un type de batiment specifique
                                 Local,
                                 on_delete=models.PROTECT,
     )
+    
+    def costs(self):
+        cout = self.ressource.prix * self.nombre
+        f"Coute {cout}€"
+        return cout
+    
     def __str__(self):
         return f"Stock situe a {self.local.nom} dans {self.local.ville.nom},{self.local.ville.code_postal} d'une surface de {self.local.surface}"
 
