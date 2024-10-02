@@ -77,7 +77,3 @@ Ressource -* Stock::ressource
 Usine -* Stock::usine
 
 @enduml
-
-
-
-
