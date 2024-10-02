@@ -10,7 +10,7 @@ def test_machine_creation(self):
 
 class CostTest(TestCase):
     def test_cost(self):
-        V1 = Ville.objects.create(nom="scie", code_postal=31670, prixm2=2000)
+        V1 = Ville.objects.create(nom="Oran", code_postal=31670, prixm2=2000)
 
         U1 = Usine.objects.create(nom="BurgerKing", ville=V1, surface=50)
 

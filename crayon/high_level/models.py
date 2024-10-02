@@ -4,32 +4,7 @@ from django.db import models
 # crayon/models.py
 
 
-class Ville(models.Model):  # Represente une ville
-    nom = models.CharField(max_length=200)
-    code_postal = models.IntegerField(default=31400)
-    prixm2 = models.IntegerField(default=400)
-
-    def __str__(self):
-        return f"{self.nom},{self.code_postal}"
-
-
-class Local(models.Model):  # Represente un batiment situé dans une ville
-    nom = models.CharField(max_length=200)
-    ville = models.ForeignKey(
-        Ville,
-        on_delete=models.PROTECT,
-    )
-    surface = models.IntegerField(default=200)
-
-    def __str__(self):
-        return f"local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}"
-
-
-class Siege(Local):  # Represente un type de batiment specifique
-    def __str__(self):
-        return f"Siege social situé à : {self.nom},{self.code_postal}"
-
-
+################ Machines
 class Machine(models.Model):  # Represente une machine situé dans une usine
     nom = models.CharField(max_length=200)
     prix = models.IntegerField(default=1)
@@ -41,7 +16,53 @@ class Machine(models.Model):  # Represente une machine situé dans une usine
     def __str__(self):
         return f"Machine {self.nom},{self.n_serie}"
 
+    def json_extended(self):
+        d = {"nom": self.nom, "prix": self.prix, "n_serie": self.n_serie}
+        return d
 
+
+################ Villes
+class Ville(models.Model):  # Represente une ville
+    nom = models.CharField(max_length=200)
+    code_postal = models.IntegerField(default=31400)
+    prixm2 = models.IntegerField(default=400)
+
+    def __str__(self):
+        return f"{self.nom},{self.code_postal}"
+
+    def json_extended(self):
+        d = {"nom": self.nom, "code_postal": self.code_postal, "prixm2": self.prixm2}
+        return d
+
+    def json(self):
+        d = {"nom": self.nom, "code_postal": self.code_postal, "prixm2": self.prixm2}
+        return d
+
+
+################ locaux
+class Local(models.Model):  # Represente un batiment situé dans une ville
+    nom = models.CharField(max_length=200)
+    ville = models.ForeignKey(
+        Ville,
+        on_delete=models.PROTECT,
+    )
+    surface = models.IntegerField(default=200)
+
+    def __str__(self):
+        return f"local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}"
+
+    def json_extended(self):
+        d = {"nom": self.nom, "ville": self.ville, "surface": self.surface}
+        return d
+
+
+##
+class Siege(Local):  # Represente un type de batiment specifique
+    def __str__(self):
+        return f"Siege social situé à : {self.nom},{self.code_postal}"
+
+
+##
 class Usine(Local):  # Represente un type de batiment specifique
     machines = models.ManyToManyField(
         Machine,
@@ -61,7 +82,19 @@ class Usine(Local):  # Represente un type de batiment specifique
     def __str__(self):
         return f"Usine {self.nom} de {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}m2"
 
+    def json_extended(self):
+        d = {
+            "nom": self.nom,
+            "ville": self.ville.json_extended(),  # on fait passer tous les parametres de ville deja serialized au json de usine
+            "surface": self.surface,
+            "machine": [
+                m.json_extended() for m in self.machines.all()
+            ],  # on serialise tous les json_extend des machines
+        }
+        return d
 
+
+################ Objets
 class Objet(models.Model):  # Represente un objet
     nom = models.CharField(max_length=200, default="truc")
     prix = models.IntegerField(default=400)
@@ -80,6 +113,23 @@ class Ressource(Objet):  # Represente un type d'objet
         return f"Ressource :{self.nom},{self.prix} "
 
 
+class QuantiteRessource(models.Model):  # Represente un enssemble de ressources
+    ressource = models.ForeignKey(
+        Ressource,
+        on_delete=models.PROTECT,
+    )
+    quantite = models.IntegerField(default=0)
+
+    def cost(self):
+        cout = self.ressource.prix * self.quantite
+        f"Coute {cout}€"
+        return cout
+
+    def __str__(self):
+        return f"Demande {self.quantite} {self.ressource.nom}"
+
+
+################ Stocks
 class Stock(models.Model):  # Represente un type de batiment specifique
     ressource = models.ForeignKey(
         Ressource,
@@ -100,22 +150,7 @@ class Stock(models.Model):  # Represente un type de batiment specifique
         return f"Stock situe a {self.local.nom} dans {self.local.ville.nom},{self.local.ville.code_postal} d'une surface de {self.local.surface}"
 
 
-class QuantiteRessource(models.Model):  # Represente un enssemble de ressources
-    ressource = models.ForeignKey(
-        Ressource,
-        on_delete=models.PROTECT,
-    )
-    quantite = models.IntegerField(default=0)
-
-    def cost(self):
-        cout = self.ressource.prix * self.quantite
-        f"Coute {cout}€"
-        return cout
-
-    def __str__(self):
-        return f"Demande {self.quantite} {self.ressource.nom}"
-
-
+################ Etapes
 class Etape(models.Model):  # Represente une etape de production
     nom = models.CharField(max_length=200)
     duree = models.IntegerField(default=0)
