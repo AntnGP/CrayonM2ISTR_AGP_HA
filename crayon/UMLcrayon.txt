@@ -49,7 +49,7 @@ class QuantiteRessource << (M,green) >> {
 class Stock << (M,green) >> {
     *ressource
     *nombre
-    *usine
+    *local
       costs()
 }
 
