@@ -35,6 +35,19 @@ class Ville {
     prixm2 = data["prixm2"];  // on recupere les elements du json pour les
                               // reintegrer dans notre classe ville
   }
+
+  Ville(int num) {  // constructeur a partir du numero de la villle
+    json data = json::parse(
+        cpr::Get(cpr::Url{"http://localhost:8000/ville/" + to_string(num)})
+            .text);
+    // Ville(data["nom"], data["code_postal"], data["prixm2"]);
+    /// r.text : text string du json, qu'on convertie en veritable json avec
+    /// parse
+    nom = data["nom"];
+    code_postal = data["code_postal"];
+    prixm2 = data["prixm2"];  // on recupere les elements du json pour les
+                              // reintegrer dans notre classe ville
+  }
   //=== fonction qui remplace la sortie ostream d'une classe
   // on definit l'operateur sur une autre classe, on est autorisé a la modifier
   // meme si on ne crée pas la clase
@@ -61,8 +74,13 @@ auto main() -> int {
     elements du json pour les reintegrer dans notre classe ville cout << labege
     << "\n";
   */
-  string url = "http://localhost:8000/ville/1";
+  /*
+  string url = "http://localhost:8000/ville/2";
   auto ville = Ville{url};
+  cout << ville << "\n";
+  // resultat attendu : Baziege, 31450
+  */
+  auto ville = Ville{3};
   cout << ville << "\n";
 
   return 0;
