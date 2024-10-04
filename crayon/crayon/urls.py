@@ -27,8 +27,18 @@ urlpatterns = [
         name="ville",
     ),
     path(
+        "local/<int:pk>",
+        views.LocalDetailView.as_view(),
+        name="local",
+    ),
+    path(
         "usine/<int:pk>",
-        views.UsineApiView.as_view(),
+        views.UsineDetailView.as_view(),
         name="usine",
+    ),
+    path(
+        "usine_api/<int:pk>",
+        views.UsineApiView.as_view(),
+        name="usine_api",
     ),
 ]

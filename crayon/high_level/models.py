@@ -16,9 +16,12 @@ class Machine(models.Model):  # Represente une machine situé dans une usine
     def __str__(self):
         return f"Machine {self.nom},{self.n_serie}"
 
-    def json_extended(self):
+    def json(self):
         d = {"nom": self.nom, "prix": self.prix, "n_serie": self.n_serie}
         return d
+
+    def json_extended(self):
+        return self.json()
 
 
 ################ Villes
@@ -31,8 +34,7 @@ class Ville(models.Model):  # Represente une ville
         return f"{self.nom},{self.code_postal}"
 
     def json_extended(self):
-        d = {"nom": self.nom, "code_postal": self.code_postal, "prixm2": self.prixm2}
-        return d
+        return self.json()
 
     def json(self):
         d = {"nom": self.nom, "code_postal": self.code_postal, "prixm2": self.prixm2}
@@ -51,9 +53,12 @@ class Local(models.Model):  # Represente un batiment situé dans une ville
     def __str__(self):
         return f"local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}"
 
-    def json_extended(self):
-        d = {"nom": self.nom, "ville": self.ville, "surface": self.surface}
+    def json(self):
+        d = {"nom": self.nom, "ville": self.ville.id, "surface": self.surface}
         return d
+
+    def json_extended(self):
+        return self.json()
 
 
 ##
@@ -82,6 +87,17 @@ class Usine(Local):  # Represente un type de batiment specifique
     def __str__(self):
         return f"Usine {self.nom} de {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}m2"
 
+    def json(self):
+        d = {
+            "nom": self.nom,
+            "ville": self.ville.id,  # on fait passer tous les parametres de ville deja serialized au json de usine
+            "surface": self.surface,
+            "machine": [
+                m.id for m in self.machines.all()
+            ],  # on serialise tous les json_extend des machines
+        }
+        return d
+
     def json_extended(self):
         d = {
             "nom": self.nom,
@@ -108,6 +124,13 @@ class Ressource(Objet):  # Represente un type d'objet
         prix = {self.prix}
         f"Prix d'achat = {prix}€"
         return prix
+
+    def json_extended(self):
+        return self.json()
+
+    def json(self):
+        d = {"prix": self.prix}
+        return d
 
     def __str__(self):
         return f"Ressource :{self.nom},{self.prix} "
@@ -145,6 +168,22 @@ class Stock(models.Model):  # Represente un type de batiment specifique
         cout = self.ressource.prix * self.nombre
         f"Coute {cout}€"
         return cout
+
+    def json(self):
+        d = {
+            "ressource": self.ressource.id,  # on fait passer tous les parametres de  deja serialized de ressource  de usine
+            "nombre": self.nombre,
+            "local": self.local.id,
+        }
+        return d
+
+    def json_extended(self):
+        d = {
+            "ressource": self.ressource.json_extended(),  # on fait passer tous les parametres de ville deja serialized au json de usine
+            "nombre": self.nombre,
+            "local": self.local.json_extended(),
+        }
+        return d
 
     def __str__(self):
         return f"Stock situe a {self.local.nom} dans {self.local.ville.nom},{self.local.ville.code_postal} d'une surface de {self.local.surface}"

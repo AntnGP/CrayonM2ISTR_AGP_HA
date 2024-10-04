@@ -60,6 +60,51 @@ class Ville {
   }*/
 };
 
+class Local {
+ public:
+  string nom;
+  int code_postal;
+  int prixm2;
+  //===
+  Local(string n, int cp, int pm2) {  // constructeur manuel
+    nom = n;
+    code_postal = cp;
+    prixm2 = pm2;
+  }
+  Local(json data) {  // constructeur json
+
+    // Ville(data["nom"], data["code_postal"], data["prixm2"]);
+    nom = data["nom"];
+    code_postal = data["code_postal"];
+    prixm2 = data["prixm2"];  // on recupere les elements du json pour les
+                              // reintegrer dans notre classe ville
+  }
+  Local(string url) {  // constructeur a partir de l'url
+    json data = json::parse(cpr::Get(cpr::Url{url}).text);
+
+    nom = data["nom"];
+    code_postal = data["code_postal"];
+    prixm2 = data["prixm2"];  // on recupere les elements du json pour les
+                              // reintegrer dans notre classe ville
+  }
+
+  Local(int num) {  // constructeur a partir du numero
+    json data = json::parse(
+        cpr::Get(cpr::Url{"http://localhost:8000/ville/" + to_string(num)})
+            .text);
+
+    nom = data["nom"];
+    code_postal = data["code_postal"];
+    prixm2 = data["prixm2"];
+    /
+  }
+  //=== fonction qui remplace la sortie ostream d'une classe
+
+  friend ostream& operator<<(ostream& out, const Local& p) {
+    return out << p.nom << ", " << p.code_postal;
+  }
+};
+
 auto main() -> int {
   /* // Main de de test pour recupeperation
     json data;
@@ -76,12 +121,14 @@ auto main() -> int {
   */
   /*
   string url = "http://localhost:8000/ville/2";
-  auto ville = Ville{url};
+  auto ville = Ville{url};// constructeur par url
   cout << ville << "\n";
   // resultat attendu : Baziege, 31450
   */
+
   auto ville = Ville{3};
-  cout << ville << "\n";
+  cout << ville << "\n";  // constructeur par numero de ville
+  // resultat attendu : Mascara, 29000
 
   return 0;
 }
