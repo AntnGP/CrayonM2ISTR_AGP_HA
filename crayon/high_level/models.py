@@ -51,7 +51,7 @@ class Local(models.Model):  # Represente un batiment situé dans une ville
     surface = models.IntegerField(default=200)
 
     def __str__(self):
-        return f"local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface}"
+        return f"local {self.nom} situé a {self.ville.nom},{self.ville.code_postal} d'une sruface de {self.surface} m2"
 
     def json(self):
         d = {"nom": self.nom, "ville": self.ville.id, "surface": self.surface}
@@ -69,7 +69,7 @@ class Local(models.Model):  # Represente un batiment situé dans une ville
 ##
 class Siege(Local):  # Represente un type de batiment specifique
     def __str__(self):
-        return f"Siege social situé à : {self.nom},{self.code_postal}"
+        return f"Siege social situé à : {self.nom},{self.ville.code_postal} d'une surface de {self.surface} m2"
 
 
 # pas besoin de redefinir le json vue qu'il s'agit d'un local
@@ -247,7 +247,7 @@ class Etape(models.Model):  # Represente une etape de production
 
     def __str__(self):
         return (
-            f"Etape demandant {self.ressources.ressource.nom} avec {self.machine.nom}"
+            f"{self.nom} demandant {self.ressources.ressource.nom} avec {self.machine.nom}"
         )
 
     # Une etape ne crée pas de produit car c'est trop compliquer
