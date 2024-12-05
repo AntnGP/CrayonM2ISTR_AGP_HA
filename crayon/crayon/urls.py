@@ -50,7 +50,7 @@ urlpatterns = [
     ),
     path(
         "objet/<int:pk>",
-        views.Objet.as_view(),
+        views.ObjetDetailView.as_view(),
         name="objet",
     ),
     path(
