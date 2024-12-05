@@ -8,11 +8,11 @@ Admin Admin
 
 
 ## Installer le projet :
-*Installer les fichiers sources*
+**Recuperer les fichiers sources**
 ```
 git clone https://github.com/AntnGP/CrayonM2ISTR_AGP_HA
 ```
-*Configurer l'environnement*
+**Configurer l'environnement**
 ```
 python -m venv .venv
 source .venv/bin/activate
@@ -20,15 +20,16 @@ pip install -U pip
 pip install django
 ```
 
-*Installer Pre-commit si besoin de modifier (optionel)*
+**Installer Pre-commit si besoin de modifier le projet (optionel)**
 ```
 wget https://gitlab.laas.fr/gsaurel/teach/raw/main/.pre-commit-config.yaml
 pip install pre-commit
 pre-commit install
 pre-commit run -a 
 ```
--#le precommit sera lancé de facon automatique lors d'une tentative de commit
-*Pour verifier la syntaxe des fichiers*
+le precommit sera lancé de facon automatique lors d'une tentative de commit
+
+**Pour verifier la syntaxe des fichiers (optionel)**
 ```
 pre-commit run -a
 ```
