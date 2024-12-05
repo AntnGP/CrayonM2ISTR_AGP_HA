@@ -25,9 +25,9 @@ pip install django
 wget https://gitlab.laas.fr/gsaurel/teach/raw/main/.pre-commit-config.yaml
 pip install pre-commit
 pre-commit install
-pre-commit run -a //le precommit sera lancé de facon automatique lors d'une tentative de push
+pre-commit run -a 
 ```
-
+-#le precommit sera lancé de facon automatique lors d'une tentative de commit
 *Pour verifier la syntaxe des fichiers*
 ```
 pre-commit run -a
