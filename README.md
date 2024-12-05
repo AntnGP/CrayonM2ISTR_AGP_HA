@@ -25,7 +25,7 @@ pip install django
 wget https://gitlab.laas.fr/gsaurel/teach/raw/main/.pre-commit-config.yaml
 pip install pre-commit
 pre-commit install
-pre-commit run -a 
+pre-commit run -a
 ```
 le precommit sera lancé de facon automatique lors d'une tentative de commit
 
@@ -36,11 +36,23 @@ pre-commit run -a
 
 ## Fonctionnement du Projet
 Ce projet est destiné dans un premier temps à faire fonctionner sur un serveur hebergé sur la machine en local, les données d'une usine fictive.
-Pour lancer ce serveur :
+**Pour lancer ce serveur :**
+Aller dans le dossier ./crayon
+(optionel) Si c'est la 1er fois lancé ou si un edit a ete fait sur les fichiers
+(super used conseillé : Admin, mdp : Admin)
 ```
-
+./manage.py makemigrations
+./manage.py migrate
+./manage.py createsuperuser
 ```
+Lancer le serveur
 Pour acceder au serveur :
 ```
-
+./manage.py runserver
 ```
+Puis acceder au lien : http://localhost:8000/admin pour voir l'interface
+
+Pour acceder a un des elements : http://localhost:8000/ville/2 par exemple
+lien au format http://localhost:8000/CLASSE/ID , avec CLASSE visibles dans low_level/lowlevel.ccp ou high_level/urls.py. Les ID sont les eneiemes instansation de chaque classe.
+
+Pour instancier de nouvelles classes, passer par l'interface administrateur
