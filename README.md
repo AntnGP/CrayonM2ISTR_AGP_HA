@@ -1,10 +1,15 @@
 # PROJET DE TP M2ISTR DE CONCEPTION ORIENTEE OBJET
 
-Projet d'étude pour introduire au git dans le cadre de notre ensignement de Master.
-Projet ayant pour but de lier un exercice de conception d'objets à une interface web au travers de Django.
+A rendre pour Janvier
 
-Mot de passe et identifiant admin de Django :
-Admin Admin
+### Niveau d'avancement
+Toute partie python et serveur fonctionnel.
+Partie C++ non fonctionnelle et partiellement finie.
+
+## Contexte
+
+Projet d'étude dans le cadre de notre ensignement de Master.
+Le projet pour but de lier un exercice de conception d'objets à une interface web au travers de Django afin de modelisezr une usine de crayon de facon tres simple.
 
 
 ## Installer le projet :
