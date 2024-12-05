@@ -58,13 +58,21 @@ class Local(models.Model):  # Represente un batiment situé dans une ville
         return d
 
     def json_extended(self):
-        return self.json()
+        d = {
+            "nom": self.nom,
+            "ville": self.ville.json_extended(),
+            "surface": self.surface,
+        }
+        return d
 
 
 ##
 class Siege(Local):  # Represente un type de batiment specifique
     def __str__(self):
         return f"Siege social situé à : {self.nom},{self.code_postal}"
+
+
+# pas besoin de redefinir le json vue qu'il s'agit d'un local
 
 
 ##
@@ -94,7 +102,7 @@ class Usine(Local):  # Represente un type de batiment specifique
             "surface": self.surface,
             "machine": [
                 m.id for m in self.machines.all()
-            ],  # on serialise tous les json_extend des machines
+            ],  # on serialise tous les id des machines de l'usine
         }
         return d
 
@@ -105,7 +113,7 @@ class Usine(Local):  # Represente un type de batiment specifique
             "surface": self.surface,
             "machine": [
                 m.json_extended() for m in self.machines.all()
-            ],  # on serialise tous les json_extend des machines
+            ],  # on serialise tous les json_extend des machines, represente toutes les machines de l'usine
         }
         return d
 
@@ -147,6 +155,14 @@ class QuantiteRessource(models.Model):  # Represente un enssemble de ressources
         cout = self.ressource.prix * self.quantite
         f"Coute {cout}€"
         return cout
+
+        def json_extended(self):
+            d = {"prix": self.ressource.prix, "quantite": self.quantite.json_extended()}
+            return d
+
+        def json(self):
+            d = {"prix": self.ressource.prix, "quantite": self.quantite.id}
+            return d
 
     def __str__(self):
         return f"Demande {self.quantite} {self.ressource.nom}"
@@ -198,7 +214,7 @@ class Etape(models.Model):  # Represente une etape de production
         on_delete=models.PROTECT,
     )
 
-    ressources = models.ForeignKey(
+    ressources = models.ForeignKey(  # on modelise de sorte a ce que chaque etape n'utilie qu'une seule ressource a la fois et une machine a la fois
         QuantiteRessource,
         on_delete=models.PROTECT,
     )
@@ -208,6 +224,26 @@ class Etape(models.Model):  # Represente une etape de production
         null=True,
         on_delete=models.CASCADE,
     )
+
+    def json(self):
+        d = {
+            "nom": self.nom,  # on fait passer tous les parametres de  deja serialized de ressource  de usine
+            "duree": self.duree,
+            "machine": self.machine.id,
+            "ressources": self.ressources.id,
+            "etape_suivante": self.etape_suivante.id,
+        }
+        return d
+
+    def json_extended(self):
+        d = {
+            "nom": self.nom.json_extended(),  # on fait passer tous les parametres de  deja serialized de ressource  de usine
+            "duree": self.duree,
+            "machine": self.machine.json_extended(),
+            "ressources": self.ressources.json_extended(),
+            "etape_suivante": self.etape_suivante.json_extended(),
+        }
+        return d
 
     def __str__(self):
         return (
@@ -223,6 +259,20 @@ class Produit(models.Model):  # Represente un objet que l'on vend
         on_delete=models.PROTECT,
     )
     quantite = models.IntegerField(default=0)
+
+    def json(self):
+        d = {
+            "premiere_etape": self.premiere_etape.id,  # on fait passer tous les parametres de  deja serialized de ressource  de usine
+            "quantite": self.quantite,
+        }
+        return d
+
+    def json_extended(self):
+        d = {
+            "premiere_etape": self.premiere_etape.json_extended(),  # on fait passer tous les parametres de  deja serialized de ressource  de usine
+            "quantite": self.quantite,
+        }
+        return d
 
     def __str__(self):
         return f"Demande {self.quantite} {self.ressource.nom}"

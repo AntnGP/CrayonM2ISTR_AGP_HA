@@ -21,15 +21,17 @@ from django.urls import path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    ##ApiView
+    path(
+        "usine_api/<int:pk>",
+        views.UsineApiView.as_view(),
+        name="usine_api",
+    ),
+    ##DetailView
     path(
         "ville/<int:pk>",
         views.VilleDetailView.as_view(),
         name="ville",
-    ),
-    path(
-        "local/<int:pk>",
-        views.LocalDetailView.as_view(),
-        name="local",
     ),
     path(
         "usine/<int:pk>",
@@ -37,8 +39,43 @@ urlpatterns = [
         name="usine",
     ),
     path(
-        "usine_api/<int:pk>",
-        views.UsineApiView.as_view(),
-        name="usine_api",
+        "local/<int:pk>",
+        views.LocalDetailView.as_view(),
+        name="local",
+    ),
+    path(
+        "siege/<int:pk>",
+        views.SiegeDetailView.as_view(),
+        name="siege",
+    ),
+    path(
+        "objet/<int:pk>",
+        views.Objet.as_view(),
+        name="objet",
+    ),
+    path(
+        "ressource/<int:pk>",
+        views.RessourceDetailView.as_view(),
+        name="ressource",
+    ),
+    path(
+        "qantite_ressource/<int:pk>",
+        views.QuantiteRessourceDetailView.as_view(),
+        name="quantite_ressource",
+    ),
+    path(
+        "stock/<int:pk>",
+        views.StockDetailView.as_view(),
+        name="stock",
+    ),
+    path(
+        "etape/<int:pk>",
+        views.EtapeDetailView.as_view(),
+        name="etape",
+    ),
+    path(
+        "produit/<int:pk>",
+        views.ProduitDetailView.as_view(),
+        name="produit",
     ),
 ]
