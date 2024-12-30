@@ -210,7 +210,7 @@ auto main() -> int {
 
   auto ville = Ville{3};
   cout << ville << "\n";  // constructeur par numero de ville
-  // resultat attendu : Mascara, 29000
+  // resultat attendu : données entrées pour la ville 3 sur la partie web
 
   return 0;
 }
