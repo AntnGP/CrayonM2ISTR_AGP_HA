@@ -55,9 +55,14 @@ Pour acceder au serveur :
 ```
 ./manage.py runserver
 ```
+
+
 Puis acceder au lien : http://localhost:8000/admin pour voir l'interface
 
 Pour acceder a un des elements : http://localhost:8000/ville/2 par exemple
 lien au format http://localhost:8000/CLASSE/ID , avec CLASSE visibles dans low_level/lowlevel.ccp ou high_level/urls.py. Les ID sont les eneiemes instansation de chaque classe.
 
 Pour instancier de nouvelles classes, passer par l'interface administrateur
+
+## Avancement
+Toutes les parties ont ete abordées mais pas mises en oeuvres complètement. La partie lowlevel et le C++ n'ont pas ete terminé, notament aucune fonction n'a ete mise en oeuvre ci ce n'est faire un simple affichage des données. Deplus, le transfert de toutes les classes entre le python et le C++ n'est pas entierment implementé non plus.
