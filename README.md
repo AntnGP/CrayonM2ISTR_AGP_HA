@@ -2,9 +2,10 @@
 
 A rendre pour Janvier
 
-### Niveau d'avancement
+## Niveau d'avancement
 Toute partie python et serveur fonctionnel.
 Partie C++ non fonctionnelle et partiellement finie.
+Toutes les parties ont ete abordées mais pas mises en oeuvres complètement. La partie lowlevel et le C++ n'ont pas ete terminé, notament aucune fonction n'a ete mise en oeuvre ci ce n'est faire un simple affichage des données. Deplus, le transfert de toutes les classes entre le python et le C++ n'est pas entierment implementé non plus.
 
 ## Contexte
 
@@ -13,6 +14,7 @@ Le projet pour but de lier un exercice de conception d'objets à une interface w
 
 
 ## Installer le projet :
+En considerant que vous ayez un systeme d'exploitation fonctionnel, avec pip, python et venv installés 
 **Recuperer les fichiers sources**
 ```
 git clone https://github.com/AntnGP/CrayonM2ISTR_AGP_HA
@@ -64,5 +66,5 @@ lien au format http://localhost:8000/CLASSE/ID , avec CLASSE visibles dans low_l
 
 Pour instancier de nouvelles classes, passer par l'interface administrateur
 
-## Avancement
-Toutes les parties ont ete abordées mais pas mises en oeuvres complètement. La partie lowlevel et le C++ n'ont pas ete terminé, notament aucune fonction n'a ete mise en oeuvre ci ce n'est faire un simple affichage des données. Deplus, le transfert de toutes les classes entre le python et le C++ n'est pas entierment implementé non plus.
+
+
