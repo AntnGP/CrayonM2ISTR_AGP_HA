@@ -1,6 +1,6 @@
 # PROJET DE TP M2ISTR DE CONCEPTION ORIENTEE OBJET
 
-A rendre pour Janvier
+Projet par Ayman et Antoine
 
 ## Niveau d'avancement
 Toute partie python et serveur fonctionnel.
